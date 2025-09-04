@@ -1,9 +1,6 @@
 package com.app.bibliotecauniversitariapa.entities;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,15 +8,24 @@ import lombok.NoArgsConstructor;
 @Entity
 @Table(name = "students")
 @Data
-@AllArgsConstructor
 @NoArgsConstructor
+@AllArgsConstructor
 public class Student {
-    @Id
-    @Column(length = 10, unique = true, nullable = false)
-    private String registrationNumber;
 
-    private String firstName;
-    private String lastName;
-    private String career;
-    private String phone;
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false)
+    private String name;
+
+    @Column(unique = true, nullable = false)
+    private String email;
+
+    @Column(unique = true, nullable = false)
+    private String enrollmentNumber; // matrícula
+
+    private String career;   // carrera / programa académico
+
+    private int semester;    // semestre actual
 }

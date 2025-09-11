@@ -1,7 +1,7 @@
-package com.app.grupo.controllers;
+package com.app.bibliotecauniversitariapa.controllers;
 
-import com.app.grupo.dtos.InventoryDTO;
-import com.app.grupo.services.InventoryService;
+import com.app.bibliotecauniversitariapa.dtos.InventoryDTO;
+import com.app.bibliotecauniversitariapa.services.InventoryService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/books")
+@RequestMapping("api/inventories")
 @CrossOrigin
 
 public class InventoryController {
@@ -26,8 +26,8 @@ public class InventoryController {
 
     // localhost:8080/api/employees
     @GetMapping
-    public ResponseEntity<List<InventoryDTO>> getAllInventorys() {
-        List<InventoryDTO> inventoryDTOS = inventoryService.getInventorys();
+    public ResponseEntity<List<InventoryDTO>> getAllInventories() {
+        List<InventoryDTO> inventoryDTOS = inventoryService.getInventories();
         return ResponseEntity.ok(inventoryDTOS);
     }
 

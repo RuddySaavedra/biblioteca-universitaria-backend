@@ -1,11 +1,11 @@
-package com.app.grupo.services.impls;
+package com.app.bibliotecauniversitariapa.servicesimpls;
 
-import com.app.grupo.dtos.InventoryDTO;
-import com.app.grupo.entities.Inventory;
-import com.app.grupo.exceptions.ResouceNotFoundException;
-import com.app.grupo.mappers.InventoryMapper;
-import com.app.grupo.repositories.InventoryRepository;
-import com.app.grupo.services.InventoryService;
+import com.app.bibliotecauniversitariapa.dtos.InventoryDTO;
+import com.app.bibliotecauniversitariapa.entities.Inventory;
+import com.app.bibliotecauniversitariapa.exceptions.ResouceNotFoundException;
+import com.app.bibliotecauniversitariapa.mappers.InventoryMapper;
+import com.app.bibliotecauniversitariapa.repositories.InventoryRepository;
+import com.app.bibliotecauniversitariapa.services.InventoryService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -56,9 +56,8 @@ public class InventoryServiceImpls implements InventoryService{
         return InventoryMapper.mapInventoryToInventoryDTO(inventory);
     }
 
-    @Override
-    public List<InventoryDTO> getInventorys() {
-        List<Inventory> inventorys = inventoryRepository.findAll();
-        return inventorys.stream().map((InventoryMapper::mapInventoryToInventoryDTO)).collect(Collectors.toList());
+    public List<InventoryDTO> getInventories() {
+        List<Inventory> inventories = inventoryRepository.findAll();
+        return inventories.stream().map((InventoryMapper::mapInventoryToInventoryDTO)).collect(Collectors.toList());
     }
 }

@@ -1,7 +1,8 @@
-package com.app.grupo.mappers;
+package com.app.bibliotecauniversitariapa.mappers;
 
-import com.app.grupo.dtos.InventoryDTO;
-import com.app.grupo.entities.Inventory;
+
+import com.app.bibliotecauniversitariapa.dtos.InventoryDTO;
+import com.app.bibliotecauniversitariapa.entities.Inventory;
 
 public class InventoryMapper {
     // Convertir de una clase original a un DTO

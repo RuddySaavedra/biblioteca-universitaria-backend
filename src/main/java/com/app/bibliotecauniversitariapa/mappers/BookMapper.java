@@ -10,6 +10,7 @@ public class BookMapper {
                 book.getId(),
                 book.getTitle(),
                 book.getSubject(),
+                book.getColor(),
                 book.getIsbn(),
                 book.getPublicationYear()
         );
@@ -20,6 +21,7 @@ public class BookMapper {
         book.setId(bookDTO.getId());
         book.setTitle(bookDTO.getTitle());
         book.setSubject(bookDTO.getSubject());
+        book.setColor(bookDTO.getColor());
         book.setIsbn(bookDTO.getIsbn());
         book.setPublicationYear(bookDTO.getPublicationYear());
         return book;

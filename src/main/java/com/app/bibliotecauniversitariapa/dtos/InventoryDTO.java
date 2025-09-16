@@ -7,10 +7,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class BookDTO {
+public class InventoryDTO {
     private Long id;
-    private String title;
-    private String subject;
-    private String isbn;
-    private int publicationYear;
+    private int totalCopies;
+    private int availableCopies;
+    private int minThreshold;
 }

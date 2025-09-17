@@ -11,7 +11,6 @@ public class BookDTO {
     private Long id;
     private String title;
     private String subject;
-    private String color;
     private String isbn;
     private int publicationYear;
 }

@@ -17,7 +17,6 @@ public class Book {
 
     private String title;
     private String subject;
-    private String color;
 
     @Column(unique = true, nullable = false)
     private String isbn;

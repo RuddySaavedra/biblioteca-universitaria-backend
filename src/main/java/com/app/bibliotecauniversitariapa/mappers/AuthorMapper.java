@@ -8,7 +8,8 @@ public class AuthorMapper {
         return new AuthorDTO(
                 author.getId(),
                 author.getFirstName(),
-                author.getLastName()
+                author.getLastName(),
+                author.getAddress()
         );
     }
     public static Author mapAuthorDTOToAuthorEntity(AuthorDTO authorDTO) {
@@ -16,6 +17,7 @@ public class AuthorMapper {
         author.setId(authorDTO.getId());
         author.setFirstName(authorDTO.getFirstName());
         author.setLastName(authorDTO.getLastName());
+        author.setAddress(authorDTO.getAddress());
         return author;
     }
 }

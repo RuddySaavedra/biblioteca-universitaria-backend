@@ -33,6 +33,7 @@ public class AuthorServiceImpl implements AuthorService {
     );
         author.setFirstName(authorDTO.getFirstName());
         author.setLastName(authorDTO.getLastName());
+        author.setAddress(authorDTO.getAddress());
 
         Author updatedAuthor = authorRepository.save(author);
         return AuthorMapper.mapAuthorEntityToAuthorDTO(updatedAuthor);

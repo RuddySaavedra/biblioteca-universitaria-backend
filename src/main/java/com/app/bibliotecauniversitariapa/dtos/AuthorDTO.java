@@ -7,6 +7,8 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -18,4 +20,6 @@ public class AuthorDTO {
     private String firstName;
     private String lastName;
     private String address;
+    private String email;
+    private LocalDate birthDate;
 }

@@ -14,4 +14,5 @@ public class StudentDTO {
     private String enrollmentNumber; // matrícula
     private String career;           // carrera o programa académico
     private int semester;            // semestre actual
+    private String phone;
 }

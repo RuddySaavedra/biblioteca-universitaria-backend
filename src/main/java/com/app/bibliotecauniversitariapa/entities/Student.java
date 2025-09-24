@@ -28,4 +28,6 @@ public class Student {
     private String career;   // carrera / programa académico
 
     private int semester;    // semestre actual
+
+    private String phone;
 }

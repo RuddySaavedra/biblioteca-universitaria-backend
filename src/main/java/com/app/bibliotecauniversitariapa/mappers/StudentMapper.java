@@ -13,7 +13,8 @@ public class StudentMapper {
                 student.getEmail(),
                 student.getEnrollmentNumber(),
                 student.getCareer(),
-                student.getSemester()
+                student.getSemester(),
+                student.getPhone()
         );
     }
 
@@ -26,6 +27,7 @@ public class StudentMapper {
         student.setEnrollmentNumber(studentDTO.getEnrollmentNumber());
         student.setCareer(studentDTO.getCareer());
         student.setSemester(studentDTO.getSemester());
+        student.setPhone(studentDTO.getPhone());
         return student;
     }
 }

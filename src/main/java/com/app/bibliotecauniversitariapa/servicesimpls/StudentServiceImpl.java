@@ -38,6 +38,7 @@ public class StudentServiceImpl implements StudentService {
         student.setEnrollmentNumber(studentDTO.getEnrollmentNumber());
         student.setCareer(studentDTO.getCareer());
         student.setSemester(studentDTO.getSemester());
+        student.setPhone(studentDTO.getPhone());
 
         Student updatedStudent = studentRepository.save(student);
         return StudentMapper.mapStudentToStudentDTO(updatedStudent);

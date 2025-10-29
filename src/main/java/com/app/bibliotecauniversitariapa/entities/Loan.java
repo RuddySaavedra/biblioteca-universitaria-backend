@@ -1,6 +1,7 @@
 package com.app.bibliotecauniversitariapa.entities;
 
 import com.app.bibliotecauniversitariapa.entities.enums.LoanStatus;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -24,4 +25,13 @@ public class Loan {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private LoanStatus status;
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(
+            name = "book_id",
+            nullable = false,
+            foreignKey = @ForeignKey(name = "fk_loan_book")
+    )
+    @JsonBackReference
+    private Book book;
 }

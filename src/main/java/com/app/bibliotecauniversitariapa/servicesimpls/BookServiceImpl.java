@@ -28,13 +28,17 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public BookDTO updateBook(Long bookId, BookDTO bookDTO) {
-        Book book = bookRepository.findById(bookId).orElseThrow(
-                ()-> new ResouceNotFoundException("Book not found with id " + bookId)
+        Book book = bookRepository.findById(bookId).
+                orElseThrow(()-> new ResouceNotFoundException("Book not found with id " + bookId)
         );
         book.setTitle(bookDTO.getTitle());
         book.setSubject(bookDTO.getSubject());
         book.setIsbn(bookDTO.getIsbn());
         book.setPublicationYear(bookDTO.getPublicationYear());
+        if (book.getLoans() != null) {
+            book.getLoans().forEach(l -> l.setBook(null));
+            book.getLoans().clear();
+        }
 
         Book updatedBook = bookRepository.save(book);
         return BookMapper.mapBookToBookDTO(updatedBook);

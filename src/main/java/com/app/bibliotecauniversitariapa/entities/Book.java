@@ -1,9 +1,13 @@
 package com.app.bibliotecauniversitariapa.entities;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "books")
@@ -22,4 +26,22 @@ public class Book {
     private String isbn;
 
     private int publicationYear;
+
+    @OneToMany(
+            mappedBy = "book",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true //si borro el libro el prestamo no existe
+    )
+    @JsonManagedReference
+    private List<Loan> loans = new ArrayList<>();//solo para many to one o OneToMany
+
+    public void addLoan(Loan loan) {
+        loans.add(loan);
+        loan.setBook(this);
+    }
+
+    public void removeLoan(Loan loan) {
+        loans.remove(loan);
+        loan.setBook(null);
+    }
 }

@@ -5,13 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class InventoryDTO {
+public class BookReturnDTO {
     private Long id;
-    private int totalCopies;
-    private int availableCopies;
-    private int minThreshold;
+    private LocalDate returnDate;
+    private double penaltyAmount;
+    private String reason;
 }

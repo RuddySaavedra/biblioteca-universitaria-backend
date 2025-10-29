@@ -34,8 +34,7 @@ public class AuthorServiceImpl implements AuthorService {
         author.setFirstName(authorDTO.getFirstName());
         author.setLastName(authorDTO.getLastName());
         author.setAddress(authorDTO.getAddress());
-        author.setEmail(authorDTO.getEmail());
-        author.setBirthDate(authorDTO.getBirthDate());
+        author.setType(authorDTO.getType());
 
         Author updatedAuthor = authorRepository.save(author);
         return AuthorMapper.mapAuthorEntityToAuthorDTO(updatedAuthor);
@@ -48,6 +47,7 @@ public class AuthorServiceImpl implements AuthorService {
         );
         authorRepository.delete(author);
     }
+    
     @Override
     public AuthorDTO getAuthorById(Long authorId) {
         Author author = authorRepository.findById(authorId).orElseThrow(

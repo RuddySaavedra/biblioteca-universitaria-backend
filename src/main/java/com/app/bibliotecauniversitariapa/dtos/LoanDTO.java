@@ -1,17 +1,20 @@
 package com.app.bibliotecauniversitariapa.dtos;
 
+import com.app.bibliotecauniversitariapa.entities.enums.LoanStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class InventoryDTO {
+public class LoanDTO {
     private Long id;
-    private int totalCopies;
-    private int availableCopies;
-    private int minThreshold;
+    private LocalDate loanDate;
+    private LocalDate dueDate;
+    private LoanStatus status;
 }

@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Student {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -26,8 +25,6 @@ public class Student {
     private String enrollmentNumber; // matrícula
 
     private String career;   // carrera / programa académico
-
     private int semester;    // semestre actual
-
     private String phone;
 }

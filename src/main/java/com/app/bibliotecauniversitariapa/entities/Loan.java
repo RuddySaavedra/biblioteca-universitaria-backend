@@ -1,22 +1,27 @@
 package com.app.bibliotecauniversitariapa.entities;
 
+import com.app.bibliotecauniversitariapa.entities.enums.LoanStatus;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.time.LocalDate;
+
 @Entity
-@Table(name = "authors")
+@Table(name = "loans")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-//variable type, solo A,B,C
-public class Author {
+public class Loan {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String firstName;
-    private String lastName;
-    private String address;
-    private String type;
+
+    private LocalDate loanDate;
+    private LocalDate dueDate;
+
+    @Enumerated(EnumType.STRING)
+    @Column(nullable = false)
+    private LoanStatus status;
 }

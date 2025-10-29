@@ -14,6 +14,7 @@ public class BookMapper {
                 book.getPublicationYear()
         );
     }
+
     // Convertir de un DTO a una clase original
     public static Book mapBookDTOToBook(BookDTO bookDTO) {
         Book book = new Book();

@@ -30,7 +30,7 @@ public class BookController {
         return ResponseEntity.ok(bookDTOS);
     }
 
-    // localhost:8080/api/employees
+    // localhost:8080/api/employees/id
     @GetMapping("{id}")
     public ResponseEntity<BookDTO> getBookById(@PathVariable Long id) {
         BookDTO bookDTO = bookService.getBookById(id);
@@ -46,6 +46,6 @@ public class BookController {
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteBook(@PathVariable Long id) {
         bookService.deleteBook(id);
-        return ResponseEntity.ok("Employee deleted successfully.");
+        return ResponseEntity.ok("Book deleted successfully.");
     }
 }

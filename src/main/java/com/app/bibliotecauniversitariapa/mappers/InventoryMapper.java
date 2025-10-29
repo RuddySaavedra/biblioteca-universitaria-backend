@@ -14,6 +14,7 @@ public class InventoryMapper {
                 inventory.getMinThreshold()
         );
     }
+
     // Convertir de un DTO a una clase original
     public static Inventory mapInventoryDTOToInventory(InventoryDTO inventoryDTO) {
         Inventory inventory = new Inventory();

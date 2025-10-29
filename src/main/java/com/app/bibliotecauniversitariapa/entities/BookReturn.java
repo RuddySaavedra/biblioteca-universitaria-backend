@@ -4,19 +4,19 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import java.time.LocalDate;
 
 @Entity
-@Table(name = "authors")
+@Table(name = "book_returns")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
-//variable type, solo A,B,C
-public class Author {
+@NoArgsConstructor
+public class BookReturn {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String firstName;
-    private String lastName;
-    private String address;
-    private String type;
+
+    private LocalDate returnDate;
+    private double penaltyAmount;
+    private String reason;
 }

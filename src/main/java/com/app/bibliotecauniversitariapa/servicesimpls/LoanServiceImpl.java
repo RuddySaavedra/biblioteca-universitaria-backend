@@ -61,7 +61,7 @@ public class LoanServiceImpl implements LoanService {
         );
         return LoanMapper.mapLoanToLoanDTO(loan);
     }
-
+    // Hola
     @Override
     public List<LoanDTO> getLoans() {
         List<Loan> loans = loanRepository.findAll();

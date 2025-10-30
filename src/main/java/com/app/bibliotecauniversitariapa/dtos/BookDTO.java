@@ -18,7 +18,6 @@ public class BookDTO {
     private String isbn;
     private int publicationYear;
     private List<LoanDTO> loans;
-}
 
     // Datos del autor asociado
     private Long authorId;

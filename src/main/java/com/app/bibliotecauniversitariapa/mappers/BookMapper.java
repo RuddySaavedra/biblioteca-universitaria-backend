@@ -3,9 +3,7 @@ package com.app.bibliotecauniversitariapa.mappers;
 import com.app.bibliotecauniversitariapa.dtos.BookDTO;
 import com.app.bibliotecauniversitariapa.dtos.LoanDTO;
 import com.app.bibliotecauniversitariapa.entities.Book;
-import com.app.bibliotecauniversitariapa.entities.Loan;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -29,6 +27,7 @@ public class BookMapper {
             );
         }
 
+        List<LoanDTO> loansDTO = null;
         if(book.getLoans()!=null){
             loansDTO=book.getLoans()//obtenemos los pedidos y los transformamos a DTO
                     .stream()

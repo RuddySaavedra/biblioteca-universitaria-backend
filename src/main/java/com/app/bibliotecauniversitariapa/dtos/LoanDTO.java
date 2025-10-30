@@ -20,4 +20,8 @@ public class LoanDTO {
 
     private Long Book_id;
     private String Book_Name;
+
+    // paso 3 datos que quiero mostrar del estudiante
+    private Long studentId;
+    private String studentName;
 }

@@ -19,4 +19,8 @@ public class BookReturn {
     private LocalDate returnDate;
     private double penaltyAmount;
     private String reason;
+
+    @OneToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "loan_id", nullable = false, foreignKey = @ForeignKey(name = "fk_return_loan"))
+    private Loan loan;
 }

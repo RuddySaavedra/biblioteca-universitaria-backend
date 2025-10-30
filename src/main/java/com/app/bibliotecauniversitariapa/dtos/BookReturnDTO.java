@@ -1,5 +1,6 @@
 package com.app.bibliotecauniversitariapa.dtos;
 
+import com.app.bibliotecauniversitariapa.entities.Loan;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,4 +17,5 @@ public class BookReturnDTO {
     private LocalDate returnDate;
     private double penaltyAmount;
     private String reason;
+    private Loan loan;
 }

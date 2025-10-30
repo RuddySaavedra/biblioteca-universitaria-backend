@@ -34,6 +34,7 @@ public class BookReturnServiceImpl implements BookReturnService {
         bookReturn.setReturnDate(bookReturnDTO.getReturnDate());
         bookReturn.setPenaltyAmount(bookReturnDTO.getPenaltyAmount());
         bookReturn.setReason(bookReturnDTO.getReason());
+        bookReturn.setLoan(bookReturnDTO.getLoan());
 
         BookReturn updatedBookReturn = bookReturnRepository.save(bookReturn);
         return BookReturnMapper.mapBookReturnToBookDTO(updatedBookReturn);

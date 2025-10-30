@@ -6,21 +6,27 @@ import com.app.bibliotecauniversitariapa.entities.BookReturn;
 public class BookReturnMapper {
     // Convertir de una clase original a un DTO
     public static BookReturnDTO mapBookReturnToBookDTO(BookReturn bookReturn) {
-        return new BookReturnDTO(
-                bookReturn.getId(),
-                bookReturn.getReturnDate(),
-                bookReturn.getPenaltyAmount(),
-                bookReturn.getReason()
-        );
+        if (bookReturn == null) return null;
+
+        BookReturnDTO dto =  new BookReturnDTO();
+        dto.setId(bookReturn.getId());
+        dto.setReturnDate(bookReturn.getReturnDate());
+        dto.setReason(bookReturn.getReason());
+        dto.setPenaltyAmount(bookReturn.getPenaltyAmount());
+        dto.setLoan(bookReturn.getLoan());
+
+        return dto;
     }
 
     // Convertir de un DTO a una clase original
     public static BookReturn mapBookReturnDTOToBookReturn(BookReturnDTO bookReturnDTO) {
-        BookReturn bookReturn = new BookReturn();
-        bookReturn.setId(bookReturnDTO.getId());
-        bookReturn.setReturnDate(bookReturnDTO.getReturnDate());
-        bookReturn.setPenaltyAmount(bookReturnDTO.getPenaltyAmount());
-        bookReturn.setReason(bookReturnDTO.getReason());
-        return bookReturn;
+        if (bookReturnDTO == null) return null;
+
+        BookReturn e =  new BookReturn();
+        e.setId(bookReturnDTO.getId());
+        e.setReturnDate(bookReturnDTO.getReturnDate());
+        e.setPenaltyAmount(bookReturnDTO.getPenaltyAmount());
+        e.setLoan(bookReturnDTO.getLoan());
+        return e;
     }
 }

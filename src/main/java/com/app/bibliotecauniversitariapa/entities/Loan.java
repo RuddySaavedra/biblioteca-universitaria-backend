@@ -2,6 +2,7 @@ package com.app.bibliotecauniversitariapa.entities;
 
 import com.app.bibliotecauniversitariapa.entities.enums.LoanStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -34,4 +35,5 @@ public class Loan {
     )
     @JsonBackReference
     private Book book;
+
 }

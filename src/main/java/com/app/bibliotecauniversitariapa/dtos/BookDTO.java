@@ -15,4 +15,8 @@ public class BookDTO {
     private String subject;
     private String isbn;
     private int publicationYear;
+
+    // Datos del autor asociado
+    private Long authorId;
+    private String authorFullName;
 }

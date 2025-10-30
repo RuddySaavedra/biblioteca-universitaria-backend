@@ -6,7 +6,8 @@ import com.app.bibliotecauniversitariapa.exceptions.ResouceNotFoundException;
 import com.app.bibliotecauniversitariapa.mappers.BookReturnMapper;
 import com.app.bibliotecauniversitariapa.repositories.BookReturnRepository;
 import com.app.bibliotecauniversitariapa.services.BookReturnService;
-import lombok.AllArgsConstructor;
+import jakarta.transaction.Transactional;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -14,7 +15,8 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
+@Transactional
 public class BookReturnServiceImpl implements BookReturnService {
     @Autowired
     private BookReturnRepository bookReturnRepository;

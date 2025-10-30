@@ -13,11 +13,22 @@ import java.util.stream.Collectors;
 public class BookMapper {
     // Convertir de una clase original a un DTO
     public static BookDTO mapBookToBookDTO(Book book) {
+        if (book == null) return null;
+
         BookDTO bookDTO = new BookDTO();
+        bookDTO.setId(book.getId());
+        bookDTO.setTitle(book.getTitle());
         bookDTO.setIsbn(book.getIsbn());
         bookDTO.setPublicationYear(book.getPublicationYear());
-        bookDTO.setTitle(book.getTitle());
-        List<LoanDTO> loansDTO=null;
+
+        // Incluye datos del author (ID y nombre)
+        if (book.getAuthor() != null) {
+            bookDTO.setAuthorId(book.getAuthor().getId());
+            bookDTO.setAuthorFullName(
+                    book.getAuthor().getFirstName() + " " + book.getAuthor().getLastName()
+            );
+        }
+
         if(book.getLoans()!=null){
             loansDTO=book.getLoans()//obtenemos los pedidos y los transformamos a DTO
                     .stream()
@@ -42,6 +53,7 @@ public class BookMapper {
                     .map(LoanMapper::mapLoanDTOToLoan)
                     .forEach(book::addLoan);
         }
+
         return book;
     }
 }

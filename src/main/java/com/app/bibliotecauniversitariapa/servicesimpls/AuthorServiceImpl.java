@@ -4,6 +4,7 @@ import com.app.bibliotecauniversitariapa.dtos.AuthorDTO;
 import com.app.bibliotecauniversitariapa.entities.Author;
 import com.app.bibliotecauniversitariapa.exceptions.ResouceNotFoundException;
 import com.app.bibliotecauniversitariapa.mappers.AuthorMapper;
+import com.app.bibliotecauniversitariapa.mappers.BookMapper;
 import com.app.bibliotecauniversitariapa.repositories.AuthorRepository;
 import com.app.bibliotecauniversitariapa.services.AuthorService;
 import lombok.AllArgsConstructor;
@@ -35,6 +36,16 @@ public class AuthorServiceImpl implements AuthorService {
         author.setLastName(authorDTO.getLastName());
         author.setAddress(authorDTO.getAddress());
         author.setType(authorDTO.getType());
+
+        // Replace Books
+        author.getBooks().forEach(book -> book.setAuthor(null));
+        author.getBooks().clear();
+
+        if (authorDTO.getBooks() != null) {
+            authorDTO.getBooks().forEach(bookDTO ->
+                    author.addBook(BookMapper.mapBookDTOToBook(bookDTO))
+            );
+        }
 
         Author updatedAuthor = authorRepository.save(author);
         return AuthorMapper.mapAuthorEntityToAuthorDTO(updatedAuthor);

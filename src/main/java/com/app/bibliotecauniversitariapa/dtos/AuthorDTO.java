@@ -8,6 +8,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -20,4 +22,5 @@ public class AuthorDTO {
     private String lastName;
     private String address;
     private String type;
+    private List<BookDTO> books;
 }

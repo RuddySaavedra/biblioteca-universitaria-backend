@@ -1,5 +1,6 @@
 package com.app.bibliotecauniversitariapa.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -44,4 +45,9 @@ public class Book {
         loans.remove(loan);
         loan.setBook(null);
     }
+
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "author_id", nullable = false, foreignKey = @ForeignKey(name="fk_book_author"))
+    @JsonBackReference
+    private Author author;
 }

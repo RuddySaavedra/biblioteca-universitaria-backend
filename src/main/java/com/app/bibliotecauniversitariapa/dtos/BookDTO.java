@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -15,6 +17,8 @@ public class BookDTO {
     private String subject;
     private String isbn;
     private int publicationYear;
+    private List<LoanDTO> loans;
+}
 
     // Datos del autor asociado
     private Long authorId;

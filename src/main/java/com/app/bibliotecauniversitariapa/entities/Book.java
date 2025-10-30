@@ -27,7 +27,20 @@ public class Book {
     private String isbn;
 
     private int publicationYear;
-
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JoinColumn(
+            name="inventory_id",
+            nullable = false,
+            foreignKey = @ForeignKey(name="fk_book_inventory")
+    )
+    @JsonManagedReference
+    private Inventory inventory;
+    public void setInventory(Inventory inventory) {
+        this.inventory = inventory;
+        if(inventory!=null) {
+            inventory.setBook(this);
+        }
+    }
     @OneToMany(
             mappedBy = "book",
             cascade = CascadeType.ALL,

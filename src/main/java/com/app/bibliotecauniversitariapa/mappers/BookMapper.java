@@ -3,6 +3,7 @@ package com.app.bibliotecauniversitariapa.mappers;
 import com.app.bibliotecauniversitariapa.dtos.BookDTO;
 import com.app.bibliotecauniversitariapa.dtos.LoanDTO;
 import com.app.bibliotecauniversitariapa.entities.Book;
+import com.app.bibliotecauniversitariapa.entities.Inventory;
 
 import java.util.List;
 import java.util.Objects;
@@ -18,7 +19,12 @@ public class BookMapper {
         bookDTO.setTitle(book.getTitle());
         bookDTO.setIsbn(book.getIsbn());
         bookDTO.setPublicationYear(book.getPublicationYear());
-
+        Inventory inventory=book.getInventory();
+        if(inventory!=null){
+            bookDTO.setInventoryId(inventory.getId());
+            bookDTO.setAvailableCopies(inventory.getAvailableCopies());
+            bookDTO.setTotalCopies(inventory.getTotalCopies());
+        }
         // Incluye datos del author (ID y nombre)
         if (book.getAuthor() != null) {
             bookDTO.setAuthorId(book.getAuthor().getId());

@@ -2,17 +2,24 @@ package com.app.bibliotecauniversitariapa.mappers;
 
 
 import com.app.bibliotecauniversitariapa.dtos.InventoryDTO;
+import com.app.bibliotecauniversitariapa.entities.Book;
 import com.app.bibliotecauniversitariapa.entities.Inventory;
 
 public class InventoryMapper {
     // Convertir de una clase original a un DTO
     public static InventoryDTO mapInventoryToInventoryDTO(Inventory inventory) {
-        return new InventoryDTO(
-                inventory.getId(),
-                inventory.getTotalCopies(),
-                inventory.getAvailableCopies(),
-                inventory.getMinThreshold()
-        );
+        InventoryDTO inventoryDTO =new InventoryDTO();
+        inventoryDTO.setId(inventory.getId());
+        inventoryDTO.setTotalCopies(inventory.getTotalCopies());
+        inventoryDTO.setAvailableCopies(inventory.getAvailableCopies());
+        inventoryDTO.setMinThreshold(inventory.getMinThreshold());
+        Book book=inventory.getBook();
+        if(book!=null){
+            inventoryDTO.setBookId(book.getId());
+            inventoryDTO.setBookTitle(inventory.getBook().getTitle());
+        }
+        return inventoryDTO;
+
     }
 
     // Convertir de un DTO a una clase original

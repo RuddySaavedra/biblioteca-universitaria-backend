@@ -14,8 +14,11 @@ public class LoanMapper {
        loanDTO.setStatus(loan.getStatus());
        Book book=loan.getBook(); //obtenemos el book de loan para obtener ID y TITLE
        if(book!=null){
-           loanDTO.setBook_id(book.getId());
-           loanDTO.setBook_Name(book.getTitle());
+           loanDTO.setBookId(book.getId());
+           loanDTO.setBookName(book.getTitle());
+       }
+       if(loan.getBookReturn()!=null){
+           loanDTO.setReturnId(loan.getBookReturn().getId());
        }
        return loanDTO;
     }

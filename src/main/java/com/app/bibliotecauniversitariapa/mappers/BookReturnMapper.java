@@ -13,7 +13,9 @@ public class BookReturnMapper {
         dto.setReturnDate(bookReturn.getReturnDate());
         dto.setReason(bookReturn.getReason());
         dto.setPenaltyAmount(bookReturn.getPenaltyAmount());
-        dto.setLoan(bookReturn.getLoan());
+        if(bookReturn.getLoan() != null){
+            dto.setLoanId(bookReturn.getLoan().getId());
+        }
 
         return dto;
     }
@@ -25,8 +27,7 @@ public class BookReturnMapper {
         BookReturn e =  new BookReturn();
         e.setId(bookReturnDTO.getId());
         e.setReturnDate(bookReturnDTO.getReturnDate());
-        e.setPenaltyAmount(bookReturnDTO.getPenaltyAmount());
-        e.setLoan(bookReturnDTO.getLoan());
+        e.setPenaltyAmount(bookReturnDTO.getPenaltyAmount()); //aqui no es necesario que coloque el loan, solo en la parte de arriba. ni en el bidireccional ni en el unidireccional
         return e;
     }
 }

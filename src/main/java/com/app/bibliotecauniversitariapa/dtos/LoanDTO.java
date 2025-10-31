@@ -18,6 +18,7 @@ public class LoanDTO {
     private LocalDate dueDate;
     private LoanStatus status;
 
-    private Long Book_id;
-    private String Book_Name;
+    private Long BookId;
+    private String BookName;
+    private Long returnId;
 }

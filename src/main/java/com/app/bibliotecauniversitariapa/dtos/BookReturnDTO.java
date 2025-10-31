@@ -17,5 +17,5 @@ public class BookReturnDTO {
     private LocalDate returnDate;
     private double penaltyAmount;
     private String reason;
-    private Loan loan;
+    private Long loanId;
 }

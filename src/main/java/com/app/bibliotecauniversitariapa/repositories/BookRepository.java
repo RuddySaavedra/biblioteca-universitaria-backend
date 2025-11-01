@@ -30,9 +30,4 @@ public interface BookRepository extends JpaRepository<Book, Long> {
         ORDER BY a.lastName, a.firstName, b.title
     """)
     List<Book> findAllWithAuthor();
-
-    /**
-     * Opcional: listar por autor ordenado por título.
-     */
-    List<Book> findByAuthorIdOrderByTitle(Long authorId);
 }

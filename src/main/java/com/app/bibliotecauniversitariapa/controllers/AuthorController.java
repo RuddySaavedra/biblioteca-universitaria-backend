@@ -16,7 +16,6 @@ public class AuthorController {
     @Autowired
     private AuthorService authorService;
 
-
     @PostMapping
     public ResponseEntity<?> addAuthor(@RequestBody AuthorDTO authorDTO) {
         AuthorDTO savedAuthorDTO = authorService.createAuthor(authorDTO);

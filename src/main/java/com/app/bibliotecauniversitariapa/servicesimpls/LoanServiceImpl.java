@@ -4,7 +4,6 @@ import com.app.bibliotecauniversitariapa.dtos.LoanDTO;
 import com.app.bibliotecauniversitariapa.entities.Book;
 import com.app.bibliotecauniversitariapa.entities.Loan;
 import com.app.bibliotecauniversitariapa.exceptions.ResouceNotFoundException;
-import com.app.bibliotecauniversitariapa.mappers.BookMapper;
 import com.app.bibliotecauniversitariapa.mappers.LoanMapper;
 import com.app.bibliotecauniversitariapa.repositories.BookRepository;
 import com.app.bibliotecauniversitariapa.repositories.LoanRepository;

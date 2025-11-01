@@ -3,12 +3,10 @@ package com.app.bibliotecauniversitariapa.servicesimpls;
 import com.app.bibliotecauniversitariapa.dtos.BookDTO;
 import com.app.bibliotecauniversitariapa.entities.Author;
 import com.app.bibliotecauniversitariapa.entities.Book;
-import com.app.bibliotecauniversitariapa.entities.Inventory;
 import com.app.bibliotecauniversitariapa.exceptions.ResouceNotFoundException;
 import com.app.bibliotecauniversitariapa.mappers.BookMapper;
 import com.app.bibliotecauniversitariapa.repositories.AuthorRepository;
 import com.app.bibliotecauniversitariapa.repositories.BookRepository;
-import com.app.bibliotecauniversitariapa.repositories.InventoryRepository;
 import com.app.bibliotecauniversitariapa.services.BookService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -26,7 +24,6 @@ public class BookServiceImpl implements BookService {
     // Se usan para acceder a la persistencia de Book, Author e Inventory.
     private final BookRepository bookRepository;
     private final AuthorRepository authorRepository;
-    private final InventoryRepository inventoryRepository;
 
     // ===============================================================
     // 🔹 List all books (para /api/books)
@@ -79,13 +76,6 @@ public class BookServiceImpl implements BookService {
             throw new IllegalArgumentException("ISBN ya existe para otro libro.");
         }
 
-        // Vincular inventario: buscamos Inventory por id (si no existe, lanzamos ResouceNotFoundException)
-        Inventory inventory = inventoryRepository.findById(bookDTO.getInventoryId())
-                .orElseThrow(() -> new ResouceNotFoundException("Inventory not found with id " + bookDTO.getInventoryId()));
-
-        // Mantener relación bidireccional Inventory <-> Book en memoria antes de guardar
-        book.setInventory(inventory);
-        inventory.setBook(book);
 
         // Mantener consistencia del lado propietario y del lado inverso:
         // author.addBook(book) debe establecer book.setAuthor(this) internamente.

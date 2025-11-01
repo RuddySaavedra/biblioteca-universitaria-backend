@@ -14,6 +14,8 @@ public class InventoryDTO {
     private int totalCopies;
     private int availableCopies;
     private int minThreshold;
+
+    // Datos del libro asociado
     private Long bookId;
     private String bookTitle;
 }

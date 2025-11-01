@@ -1,5 +1,6 @@
 package com.app.bibliotecauniversitariapa.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -17,12 +18,10 @@ public class Inventory {
     private int totalCopies;
     private int availableCopies;
     private int minThreshold;
-    @OneToOne(mappedBy = "inventory", cascade = CascadeType.ALL, optional = false)
+
+    // Dejamos el FetchType Eager por defecto porque siempre vamos a necesitar los datos del libro.
+    @OneToOne
+    @JoinColumn(name = "book_id", unique = true, foreignKey = @ForeignKey(name = "fk_inventory_book"))
+    @JsonBackReference // Indica quién es el lado dueño de la relación
     private Book book;
-    public void setBook(Book book) {
-        this.book = book;
-        if (book != null) {
-            book.setInventory(this);
-        }
-    }
 }

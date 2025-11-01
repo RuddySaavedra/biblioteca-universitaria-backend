@@ -32,7 +32,7 @@ public class InventoryServiceImpls implements InventoryService{
         Inventory inventory = InventoryMapper.mapInventoryDTOToInventory(inventoryDTO);
 
         // Buscar el Book relacionado por id; si no existe, lanzar excepción controlada
-        Book book=bookRepository.findById(inventoryDTO.getBookId())
+        Book book = bookRepository.findById(inventoryDTO.getBookId())
                 .orElseThrow(() -> new ResouceNotFoundException("Book not found with id " + inventoryDTO.getBookId()));
 
         // Establecer la relación bidireccional entre Inventory y Book

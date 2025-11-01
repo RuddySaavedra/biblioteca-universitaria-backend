@@ -3,7 +3,6 @@ package com.app.bibliotecauniversitariapa.mappers;
 import com.app.bibliotecauniversitariapa.dtos.BookDTO;
 import com.app.bibliotecauniversitariapa.dtos.LoanDTO;
 import com.app.bibliotecauniversitariapa.entities.Book;
-import com.app.bibliotecauniversitariapa.entities.Inventory;
 
 import java.util.List;
 import java.util.Objects;
@@ -19,12 +18,7 @@ public class BookMapper {
         bookDTO.setTitle(book.getTitle());
         bookDTO.setIsbn(book.getIsbn());
         bookDTO.setPublicationYear(book.getPublicationYear());
-        Inventory inventory=book.getInventory();
-        if(inventory!=null){
-            bookDTO.setInventoryId(inventory.getId());
-            bookDTO.setAvailableCopies(inventory.getAvailableCopies());
-            bookDTO.setTotalCopies(inventory.getTotalCopies());
-        }
+
         // Incluye datos del author (ID y nombre)
         if (book.getAuthor() != null) {
             bookDTO.setAuthorId(book.getAuthor().getId());
@@ -41,6 +35,7 @@ public class BookMapper {
                     .collect(Collectors.toList());
         }
         bookDTO.setLoans(loansDTO); //seteamos los pedidos antes de retornar
+
         return bookDTO;
     }
 
@@ -52,6 +47,7 @@ public class BookMapper {
         book.setSubject(bookDTO.getSubject());
         book.setIsbn(bookDTO.getIsbn());
         book.setPublicationYear(bookDTO.getPublicationYear());
+
         if(bookDTO.getLoans()!=null){
             bookDTO.getLoans().stream()
                     .filter(Objects::nonNull)

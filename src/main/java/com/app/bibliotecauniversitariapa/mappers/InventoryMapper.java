@@ -13,8 +13,10 @@ public class InventoryMapper {
         inventoryDTO.setTotalCopies(inventory.getTotalCopies());
         inventoryDTO.setAvailableCopies(inventory.getAvailableCopies());
         inventoryDTO.setMinThreshold(inventory.getMinThreshold());
-        Book book=inventory.getBook();
-        if(book!=null){
+
+        // Necesario porque añadimos estos campos en el InventoryDTO
+        Book book = inventory.getBook();
+        if (book != null) {
             inventoryDTO.setBookId(book.getId());
             inventoryDTO.setBookTitle(inventory.getBook().getTitle());
         }
@@ -29,6 +31,7 @@ public class InventoryMapper {
         inventory.setTotalCopies(inventoryDTO.getTotalCopies());
         inventory.setAvailableCopies(inventoryDTO.getAvailableCopies());
         inventory.setMinThreshold(inventoryDTO.getMinThreshold());
+
         return inventory;
     }
 }

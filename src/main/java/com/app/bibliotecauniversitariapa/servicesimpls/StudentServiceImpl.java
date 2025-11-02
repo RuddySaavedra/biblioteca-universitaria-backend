@@ -4,6 +4,7 @@ import com.app.bibliotecauniversitariapa.dtos.StudentDTO;
 import com.app.bibliotecauniversitariapa.entities.Student;
 import com.app.bibliotecauniversitariapa.exceptions.ResouceNotFoundException;
 import com.app.bibliotecauniversitariapa.mappers.StudentMapper;
+import com.app.bibliotecauniversitariapa.repositories.LoanRepository;
 import com.app.bibliotecauniversitariapa.repositories.StudentRepository;
 import com.app.bibliotecauniversitariapa.services.StudentService;
 import lombok.AllArgsConstructor;
@@ -19,6 +20,7 @@ public class StudentServiceImpl implements StudentService {
 
     @Autowired
     private StudentRepository studentRepository;
+    private LoanRepository loanRepository;
 
     @Override
     public StudentDTO createStudent(StudentDTO studentDTO) {
@@ -26,7 +28,7 @@ public class StudentServiceImpl implements StudentService {
         Student savedStudent = studentRepository.save(student);
         return StudentMapper.mapStudentToStudentDTO(savedStudent);
     }
-
+//hola maria
     @Override
     public StudentDTO updateStudent(Long studentId, StudentDTO studentDTO) {
         Student student = studentRepository.findById(studentId).orElseThrow(

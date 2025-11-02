@@ -14,7 +14,6 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api")
 public class BookController {
-
     private final BookService bookService;
 
     // ============================================================
@@ -83,8 +82,7 @@ public class BookController {
     //   -> si no se pasa hace deleteById(bookId)
     // ============================================================
     @DeleteMapping("/books/{bookId}")
-    public ResponseEntity<String> delete(@PathVariable Long bookId,
-                                         @RequestParam(required = false) Long authorId) {
+    public ResponseEntity<String> delete(@PathVariable Long bookId, @RequestParam(required = false) Long authorId) {
         if (authorId != null) {
             bookService.remove(authorId, bookId);
         } else {

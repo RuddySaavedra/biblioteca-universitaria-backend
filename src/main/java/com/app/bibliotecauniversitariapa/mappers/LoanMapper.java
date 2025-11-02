@@ -3,7 +3,7 @@ package com.app.bibliotecauniversitariapa.mappers;
 import com.app.bibliotecauniversitariapa.dtos.LoanDTO;
 import com.app.bibliotecauniversitariapa.entities.Book;
 import com.app.bibliotecauniversitariapa.entities.Loan;
-
+//paso 5 eliminar lo que esta adentro de cada una. anadir los atributos del entities
 public class LoanMapper {
     // Convertir de una clase original a un DTO
     public static LoanDTO mapLoanToLoanDTO(Loan loan) {
@@ -17,14 +17,22 @@ public class LoanMapper {
            loanDTO.setBookId(book.getId());
            loanDTO.setBookName(book.getTitle());
        }
+      
        if(loan.getBookReturn()!=null){
            loanDTO.setReturnId(loan.getBookReturn().getId());
        }
-       return loanDTO;
+      
+      //paso 6 incluir datos del estudiante (nombre y id)
+        if (loan.getStudent() != null){
+            loanDTO.setStudentId(loan.getStudent().getId());
+            loanDTO.setStudentName(loan.getStudent().getName());
+        }
+        return loanDTO;
     }
-
+    //paso 7 anadir validacion if(...)
     // Convertir de un DTO a una clase original
     public static Loan mapLoanDTOToLoan(LoanDTO loanDTO) {
+        if (loanDTO == null) return null;
         Loan loan = new Loan();
         loan.setId(loanDTO.getId());
         loan.setLoanDate(loanDTO.getLoanDate());

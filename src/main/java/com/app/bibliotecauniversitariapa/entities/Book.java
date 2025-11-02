@@ -28,6 +28,11 @@ public class Book {
 
     private int publicationYear;
 
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "author_id", nullable = false, foreignKey = @ForeignKey(name="fk_book_author"))
+    @JsonBackReference
+    private Author author;
+
     @OneToOne(mappedBy = "book")
     @JsonManagedReference
     private Inventory inventory;
@@ -44,9 +49,4 @@ public class Book {
         loans.add(loan);
         loan.setBook(this);
     }
-
-    @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "author_id", nullable = false, foreignKey = @ForeignKey(name="fk_book_author"))
-    @JsonBackReference
-    private Author author;
 }

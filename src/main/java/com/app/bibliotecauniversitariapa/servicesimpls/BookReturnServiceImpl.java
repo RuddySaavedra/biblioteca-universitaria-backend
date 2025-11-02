@@ -5,6 +5,7 @@ import com.app.bibliotecauniversitariapa.entities.BookReturn;
 import com.app.bibliotecauniversitariapa.exceptions.ResouceNotFoundException;
 import com.app.bibliotecauniversitariapa.mappers.BookReturnMapper;
 import com.app.bibliotecauniversitariapa.repositories.BookReturnRepository;
+import com.app.bibliotecauniversitariapa.repositories.LoanRepository;
 import com.app.bibliotecauniversitariapa.services.BookReturnService;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -20,10 +21,23 @@ import java.util.stream.Collectors;
 public class BookReturnServiceImpl implements BookReturnService {
     @Autowired
     private BookReturnRepository bookReturnRepository;
+    private LoanRepository loanRepository; //hmmmm
 
     @Override
     public BookReturnDTO createBookReturn(BookReturnDTO bookReturnDTO) {
+
+        if (bookReturnDTO.getLoanId() == null) {
+            throw new IllegalArgumentException("El ID del préstamo (loanId) es obligatorio");
+        }
+
+        var loan = loanRepository.findById(bookReturnDTO.getLoanId())
+                .orElseThrow(() -> new ResouceNotFoundException("Loan not found with id " + bookReturnDTO.getLoanId()));
+
         BookReturn bookReturn = BookReturnMapper.mapBookReturnDTOToBookReturn(bookReturnDTO);
+
+        bookReturn.setLoan(loan);
+        loan.setBookReturn(bookReturn);
+
         BookReturn savedBookReturn = bookReturnRepository.save(bookReturn);
         return BookReturnMapper.mapBookReturnToBookDTO(savedBookReturn);
     }
@@ -36,7 +50,19 @@ public class BookReturnServiceImpl implements BookReturnService {
         bookReturn.setReturnDate(bookReturnDTO.getReturnDate());
         bookReturn.setPenaltyAmount(bookReturnDTO.getPenaltyAmount());
         bookReturn.setReason(bookReturnDTO.getReason());
-        bookReturn.setLoan(bookReturnDTO.getLoan());
+
+        if (bookReturnDTO.getLoanId() != null &&
+                (bookReturn.getLoan() == null || !bookReturn.getLoan().getId().equals(bookReturnDTO.getLoanId()))) {
+
+            var newLoan = loanRepository.findById(bookReturnDTO.getLoanId())
+                    .orElseThrow(() -> new ResouceNotFoundException("Loan not found with id " + bookReturnDTO.getLoanId()));
+            if (bookReturn.getLoan() != null) {
+                bookReturn.getLoan().setBookReturn(null);
+            }
+            bookReturn.setLoan(newLoan);
+            newLoan.setBookReturn(bookReturn);
+        }
+
 
         BookReturn updatedBookReturn = bookReturnRepository.save(bookReturn);
         return BookReturnMapper.mapBookReturnToBookDTO(updatedBookReturn);

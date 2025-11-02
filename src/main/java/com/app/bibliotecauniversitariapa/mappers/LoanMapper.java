@@ -13,12 +13,15 @@ public class LoanMapper {
        loanDTO.setDueDate(loan.getDueDate());
        loanDTO.setStatus(loan.getStatus());
        Book book=loan.getBook(); //obtenemos el book de loan para obtener ID y TITLE
-
-        if(book!=null){
-           loanDTO.setBook_id(book.getId());
-           loanDTO.setBook_Name(book.getTitle());
+       if(book!=null){
+           loanDTO.setBookId(book.getId());
+           loanDTO.setBookName(book.getTitle());
        }
-
+      
+       if(loan.getBookReturn()!=null){
+           loanDTO.setReturnId(loan.getBookReturn().getId());
+       }
+      
       //paso 6 incluir datos del estudiante (nombre y id)
         if (loan.getStudent() != null){
             loanDTO.setStudentId(loan.getStudent().getId());

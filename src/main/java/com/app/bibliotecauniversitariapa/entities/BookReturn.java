@@ -20,7 +20,7 @@ public class BookReturn {
     private double penaltyAmount;
     private String reason;
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "loan_id", nullable = false, foreignKey = @ForeignKey(name = "fk_return_loan"))
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "loan_id", referencedColumnName = "id")
     private Loan loan;
 }

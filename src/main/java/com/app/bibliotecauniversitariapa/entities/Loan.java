@@ -26,6 +26,10 @@ public class Loan {
     @Column(nullable = false)
     private LoanStatus status;
 
+    @OneToOne(mappedBy = "loan")
+    @JsonManagedReference
+    private BookReturn bookReturn;
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(
             name = "book_id",
@@ -34,7 +38,6 @@ public class Loan {
     )
     @JsonBackReference
     private Book book;
-
     //paso 1
     @ManyToOne(fetch = FetchType.LAZY, optional = false )
     @JoinColumn(name = "student_id",

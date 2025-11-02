@@ -25,7 +25,7 @@ public class LoanServiceImpl implements LoanService {
     @Override
     public LoanDTO createLoan(LoanDTO loanDTO) {
         Loan loan = LoanMapper.mapLoanDTOToLoan(loanDTO);
-        Book book =bookRepository.findById(loanDTO.getBook_id()).
+        Book book =bookRepository.findById(loanDTO.getBookId()).
                 orElseThrow(() -> new ResouceNotFoundException("Book not found"));
         loan.setBook(book);
         Loan savedLoan = loanRepository.save(loan);
@@ -50,6 +50,11 @@ public class LoanServiceImpl implements LoanService {
         Loan loan = loanRepository.findById(loanId).orElseThrow(
                 ()-> new ResouceNotFoundException("Loan not found with id " + loanId)
         );
+        // Romper vínculo bidireccional con BookReturn (opcional pero recomendable)
+        if (loan.getBookReturn() != null) {
+            loan.getBookReturn().setLoan(null);
+            loan.setBookReturn(null);
+        }
         loanRepository.delete(loan);
     }
 

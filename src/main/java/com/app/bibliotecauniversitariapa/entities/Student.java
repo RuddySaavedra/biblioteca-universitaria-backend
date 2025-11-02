@@ -1,9 +1,12 @@
 package com.app.bibliotecauniversitariapa.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
 
 @Entity
 @Table(name = "students")
@@ -27,4 +30,19 @@ public class Student {
     private String career;   // carrera / programa académico
     private int semester;    // semestre actual
     private String phone;
+
+    //paso 2
+    @OneToMany(mappedBy = "student", cascade = CascadeType.ALL, orphanRemoval = true)
+    @JsonBackReference
+    private List<Loan> loans;
+
+    public void addLoan(Loan loan){
+      loans.add(loan);
+      loan.setStudent(this);
+    }
+
+    public void removeLoan(Loan loan){
+        loans.remove(loan);
+        loan.setStudent(null);
+    }
 }

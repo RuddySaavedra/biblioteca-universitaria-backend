@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -17,4 +19,7 @@ public class StudentDTO {
     private String career;           // carrera o programa académico
     private int semester;            // semestre actual
     private String phone;
+
+    //paso 4
+    private List<LoanDTO> loans;
 }

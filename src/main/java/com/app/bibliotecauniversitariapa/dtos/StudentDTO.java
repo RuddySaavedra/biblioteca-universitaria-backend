@@ -20,6 +20,6 @@ public class StudentDTO {
     private int semester;            // semestre actual
     private String phone;
 
-    //paso 4
+    // Paso 4: lista de préstamos del estudiante
     private List<LoanDTO> loans;
 }

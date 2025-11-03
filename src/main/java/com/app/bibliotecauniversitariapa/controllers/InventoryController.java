@@ -10,27 +10,27 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("api/inventories")
+@RequestMapping("api/inventory")
 @CrossOrigin
 public class InventoryController {
     @Autowired
     private InventoryService inventoryService;
 
-    // localhost:8080/api/employees
+    // localhost:8080/api/inventory
     @PostMapping
     public ResponseEntity<InventoryDTO> createInventory(@RequestBody InventoryDTO inventoryDTO) {
         InventoryDTO savedInventoryDTO = inventoryService.createInventory(inventoryDTO);
         return new ResponseEntity<>(savedInventoryDTO, HttpStatus.CREATED);
     }
 
-    // localhost:8080/api/employees
+    // localhost:8080/api/inventory
     @GetMapping
     public ResponseEntity<List<InventoryDTO>> getAllInventories() {
         List<InventoryDTO> inventoryDTOS = inventoryService.getInventories();
         return ResponseEntity.ok(inventoryDTOS);
     }
 
-    // localhost:8080/api/employees
+    // localhost:8080/api/inventory
     @GetMapping("{id}")
     public ResponseEntity<InventoryDTO> getInventoryById(@PathVariable Long id) {
         InventoryDTO inventoryDTO = inventoryService.getInventoryById(id);
@@ -46,6 +46,6 @@ public class InventoryController {
     @DeleteMapping("{id}")
     public ResponseEntity<String> deleteInventory(@PathVariable Long id) {
         inventoryService.deleteInventory(id);
-        return ResponseEntity.ok("Employee deleted successfully.");
+        return ResponseEntity.ok("Inventory deleted successfully.");
     }
 }

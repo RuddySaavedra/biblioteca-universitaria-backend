@@ -12,8 +12,8 @@ public class LoanMapper {
        loanDTO.setLoanDate(loan.getLoanDate());
        loanDTO.setDueDate(loan.getDueDate());
        loanDTO.setStatus(loan.getStatus());
-       Book book=loan.getBook(); //obtenemos el book de loan para obtener ID y TITLE
-       if(book!=null){
+       Book book = loan.getBook(); //obtenemos el book de loan para obtener ID y TITLE
+       if(book != null){
            loanDTO.setBookId(book.getId());
            loanDTO.setBookName(book.getTitle());
        }

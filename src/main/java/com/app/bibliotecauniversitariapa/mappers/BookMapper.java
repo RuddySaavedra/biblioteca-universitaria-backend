@@ -29,12 +29,12 @@ public class BookMapper {
 
         List<LoanDTO> loansDTO = null;
         if(book.getLoans()!=null){
-            loansDTO=book.getLoans()//obtenemos los pedidos y los transformamos a DTO
+            loansDTO = book.getLoans()//obtenemos los pedidos y los transformamos a DTO
                     .stream()
                     .map(LoanMapper::mapLoanToLoanDTO)
                     .collect(Collectors.toList());
         }
-        bookDTO.setLoans(loansDTO); //seteamos los pedidos antes de retornar
+        bookDTO.setLoans(loansDTO); //Seteamos los pedidos antes de retornar
 
         return bookDTO;
     }

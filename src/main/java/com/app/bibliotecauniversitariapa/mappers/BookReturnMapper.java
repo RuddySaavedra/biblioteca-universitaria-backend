@@ -13,9 +13,7 @@ public class BookReturnMapper {
         dto.setReturnDate(bookReturn.getReturnDate());
         dto.setReason(bookReturn.getReason());
         dto.setPenaltyAmount(bookReturn.getPenaltyAmount());
-        if(bookReturn.getLoan() != null){
-            dto.setLoanId(bookReturn.getLoan().getId());
-        }
+
 
         return dto;
     }

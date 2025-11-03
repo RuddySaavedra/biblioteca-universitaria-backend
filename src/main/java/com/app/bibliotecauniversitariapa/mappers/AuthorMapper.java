@@ -8,17 +8,8 @@ import java.util.List;
 import java.util.Objects;
 
 public class AuthorMapper {
-    public static AuthorDTO mapAuthorEntityToAuthorDTO(Author author) {
+    public static AuthorDTO mapAuthorToAuthorDTO(Author author) {
         if  (author == null) return null;
-
-        // Books-> DTOs
-        List<BookDTO> bookDTOs = null;
-        if (author.getBooks() != null) {
-            bookDTOs = author.getBooks()
-                    .stream()
-                    .map(BookMapper::mapBookToBookDTO)
-                    .toList();
-        }
 
         AuthorDTO authorDTO = new AuthorDTO();
         authorDTO.setId(author.getId());
@@ -27,12 +18,21 @@ public class AuthorMapper {
         authorDTO.setAddress(author.getAddress());
         authorDTO.setType(author.getType());
 
+        // Map Books to BookDTOs
+        List<BookDTO> bookDTOs = null;
+        if (author.getBooks() != null) {
+            bookDTOs = author.getBooks()
+                    .stream()
+                    .map(BookMapper::mapBookToBookDTO)
+                    .toList();
+        }
+
         authorDTO.setBooks(bookDTOs);
 
         return authorDTO;
     }
 
-    public static Author mapAuthorDTOToAuthorEntity(AuthorDTO authorDTO) {
+    public static Author mapAuthorDTOToAuthor(AuthorDTO authorDTO) {
         if (authorDTO == null) return null;
 
         Author author = new Author();

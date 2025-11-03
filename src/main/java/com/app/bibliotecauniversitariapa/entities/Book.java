@@ -37,13 +37,9 @@ public class Book {
     @JsonManagedReference
     private Inventory inventory;
 
-    @OneToMany(
-            mappedBy = "book",
-            cascade = CascadeType.ALL,
-            orphanRemoval = true // Si borro el libro el prestamo no existe
-    )
+    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference
-    private List<Loan> loans = new ArrayList<>(); //solo para ManyToOne o OneToMany
+    private List<Loan> loans = new ArrayList<>();
 
     public void addLoan(Loan loan) {
         loans.add(loan);

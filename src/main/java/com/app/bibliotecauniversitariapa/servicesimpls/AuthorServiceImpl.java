@@ -22,25 +22,26 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Override
     public AuthorDTO createAuthor(AuthorDTO authorDTO){
-        Author author = AuthorMapper.mapAuthorDTOToAuthorEntity(authorDTO);
+        Author author = AuthorMapper.mapAuthorDTOToAuthor(authorDTO);
         Author savedAuthor = authorRepository.save(author);
-        return AuthorMapper.mapAuthorEntityToAuthorDTO(savedAuthor);
+        return AuthorMapper.mapAuthorToAuthorDTO(savedAuthor);
     }
 
     @Override
     public AuthorDTO updateAuthor(Long authorId, AuthorDTO authorDTO) {
         Author author = authorRepository.findById(authorId).orElseThrow(
-        ()-> new ResouceNotFoundException("Author not found with id" +authorId)
+        ()-> new ResouceNotFoundException("Author not found with id" + authorId)
     );
         author.setFirstName(authorDTO.getFirstName());
         author.setLastName(authorDTO.getLastName());
         author.setAddress(authorDTO.getAddress());
         author.setType(authorDTO.getType());
 
-        // Replace Books
+        // Replace Books associated with the Author
         author.getBooks().forEach(book -> book.setAuthor(null));
         author.getBooks().clear();
 
+        // Add updated Books from DTO
         if (authorDTO.getBooks() != null) {
             authorDTO.getBooks().forEach(bookDTO ->
                     author.addBook(BookMapper.mapBookDTOToBook(bookDTO))
@@ -48,7 +49,7 @@ public class AuthorServiceImpl implements AuthorService {
         }
 
         Author updatedAuthor = authorRepository.save(author);
-        return AuthorMapper.mapAuthorEntityToAuthorDTO(updatedAuthor);
+        return AuthorMapper.mapAuthorToAuthorDTO(updatedAuthor);
     }
 
     @Override
@@ -56,6 +57,7 @@ public class AuthorServiceImpl implements AuthorService {
         Author author = authorRepository.findById(authorId).orElseThrow(
                 ()-> new ResouceNotFoundException("Author not found with id" +authorId)
         );
+        // Al eliminar el Author, por cascade = ALL las entidades relacionadas (books) se eliminarán o quedarán huérfanas según la configuración.
         authorRepository.delete(author);
     }
     
@@ -64,12 +66,12 @@ public class AuthorServiceImpl implements AuthorService {
         Author author = authorRepository.findById(authorId).orElseThrow(
                 ()-> new ResouceNotFoundException("Author not found with id" +authorId)
         );
-        return AuthorMapper.mapAuthorEntityToAuthorDTO(author);
+        return AuthorMapper.mapAuthorToAuthorDTO(author);
     }
 
     @Override
     public List<AuthorDTO> getAuthors(){
         List<Author> authors = authorRepository.findAll();
-        return authors.stream().map((AuthorMapper::mapAuthorEntityToAuthorDTO)).collect(Collectors.toList());
+        return authors.stream().map((AuthorMapper::mapAuthorToAuthorDTO)).collect(Collectors.toList());
     }
 }

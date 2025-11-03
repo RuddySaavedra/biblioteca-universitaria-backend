@@ -2,7 +2,6 @@ package com.app.bibliotecauniversitariapa.mappers;
 
 import com.app.bibliotecauniversitariapa.dtos.LoanDTO;
 import com.app.bibliotecauniversitariapa.dtos.StudentDTO;
-import com.app.bibliotecauniversitariapa.entities.Loan;
 import com.app.bibliotecauniversitariapa.entities.Student;
 
 import java.util.List;
@@ -14,20 +13,20 @@ public class StudentMapper {
     // Convertir de Entity a DTO
     public static StudentDTO mapStudentToStudentDTO(Student student) {
         if (student == null) return null;
+        StudentDTO studentDTO = new StudentDTO();
+        studentDTO.setId(student.getId());
+        studentDTO.setName(student.getName());
 
-        //paso 9 anadir como lista
-        List<LoanDTO> loansDTOs = null;
+        // Paso 9: agregar la lista de préstamos (loans)
+        List<LoanDTO> loanDTOs = null;
         if (student.getLoans() != null) {
-            loansDTOs = student.getLoans()
+            loanDTOs = student.getLoans()
                     .stream()
                     .map(LoanMapper::mapLoanToLoanDTO)
                     .collect(Collectors.toList());
         }
+        studentDTO.setLoans(loanDTOs);
 
-        StudentDTO studentDTO = new StudentDTO();
-        studentDTO.setId(student.getId());
-        studentDTO.setName(student.getName());
-        studentDTO.setLoans(loansDTOs);
         return studentDTO;
     }
 //Convertir de DTO a Entity

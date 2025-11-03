@@ -2,6 +2,7 @@ package com.app.bibliotecauniversitariapa.entities;
 
 import com.app.bibliotecauniversitariapa.entities.enums.LoanStatus;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -31,18 +32,13 @@ public class Loan {
     private BookReturn bookReturn;
 
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(
-            name = "book_id",
-            nullable = false,
-            foreignKey = @ForeignKey(name = "fk_loan_book")
-    )
+    @JoinColumn(name = "book_id", nullable = false, foreignKey = @ForeignKey(name = "fk_loan_book"))
     @JsonBackReference
     private Book book;
-    //paso 1
+
+    // Paso 1: Relacionar Loan con Student (muchos préstamos a un estudiante)
     @ManyToOne(fetch = FetchType.LAZY, optional = false )
-    @JoinColumn(name = "student_id",
-            nullable = false,
-            foreignKey = @ForeignKey(name="fk_loan_student"))
+    @JoinColumn(name = "student_id", nullable = false, foreignKey = @ForeignKey(name="fk_loan_student"))
     @JsonBackReference
     private Student student;
 }

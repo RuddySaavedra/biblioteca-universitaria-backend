@@ -1,5 +1,6 @@
 package com.app.bibliotecauniversitariapa.entities;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -21,6 +22,7 @@ public class BookReturn {
     private String reason;
 
     @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "loan_id", referencedColumnName = "id")
+    @JoinColumn(name = "loan_id", unique = true, foreignKey = @ForeignKey(name = "fk_book_return_loan"))
+    @JsonBackReference
     private Loan loan;
 }

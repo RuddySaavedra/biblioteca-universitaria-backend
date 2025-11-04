@@ -47,6 +47,16 @@ public class BookServiceImpl implements BookService {
         book.setIsbn(bookDTO.getIsbn());
         book.setPublicationYear(bookDTO.getPublicationYear());
 
+        if (bookDTO.getAuthorId() != null) {
+            Author newAuthor = verifyAuthor(bookDTO.getAuthorId());
+            Author currentAuthor = book.getAuthor();
+
+            if (currentAuthor == null || !currentAuthor.getId().equals(newAuthor.getId())) {
+                // 1) Añadir al nuevo autor (sin quitar aún del viejo)
+                book.setAuthor(newAuthor);
+            }
+        }
+
         Book updatedBook = bookRepository.save(book);
         return BookMapper.mapBookToBookDTO(updatedBook);
     }

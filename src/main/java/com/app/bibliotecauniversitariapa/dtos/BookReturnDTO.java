@@ -16,5 +16,6 @@ public class BookReturnDTO {
     private LocalDate returnDate;
     private double penaltyAmount;
     private String reason;
-    // No es necesario el loanId porque la lista se muestra en el loan
+    private Long loanId;
+
 }

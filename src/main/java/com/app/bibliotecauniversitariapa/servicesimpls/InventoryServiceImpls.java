@@ -35,6 +35,11 @@ public class InventoryServiceImpls implements InventoryService{
         Book book = bookRepository.findById(inventoryDTO.getBookId())
                 .orElseThrow(() -> new ResouceNotFoundException("Book not found with id " + inventoryDTO.getBookId()));
 
+        // Evitar crear si el libro ya tiene un Inventory asignado
+        if (book.getInventory() != null) {
+            throw new IllegalStateException("Book with id " + book.getId() + " already has an inventory.");
+        }
+
         // Establecer la relación bidireccional entre Inventory y Book
         inventory.setBook(book);
         book.setInventory(inventory);
@@ -58,6 +63,33 @@ public class InventoryServiceImpls implements InventoryService{
         inventory.setAvailableCopies(inventoryDTO.getAvailableCopies());
         inventory.setMinThreshold(inventoryDTO.getMinThreshold());
 
+        // Si el DTO trae bookId, gestionar la reasignación correctamente
+        if (inventoryDTO.getBookId() != null) {
+            Book newBook = bookRepository.findById(inventoryDTO.getBookId())
+                    .orElseThrow(() -> new ResouceNotFoundException("Book not found with id " + inventoryDTO.getBookId()));
+
+            Book currentBook = inventory.getBook();
+
+            // Si el libro nuevo ya está asignado a otro inventory distinto, bloquear
+            if (newBook.getInventory() != null && !newBook.getInventory().getId().equals(inventoryId)) {
+                throw new IllegalStateException("Book with id " + newBook.getId() + " is already assigned to another inventory.");
+            }
+
+            // Si realmente hay un cambio de libro, sincronizar ambas relaciones
+            if (currentBook == null || !currentBook.getId().equals(newBook.getId())) {
+                // quitar referencia del libro actual (si existe)
+                if (currentBook != null) {
+                    currentBook.setInventory(null);
+                    bookRepository.save(currentBook);
+                }
+
+                // asignar nuevo libro al inventory y viceversa
+                inventory.setBook(newBook);
+                newBook.setInventory(inventory);
+                bookRepository.save(newBook);
+            }
+        }
+
         // Guardar los cambios y devolver el DTO resultante
         Inventory updatedInventory = inventoryRepository.save(inventory);
         return InventoryMapper.mapInventoryToInventoryDTO(updatedInventory);
@@ -69,6 +101,14 @@ public class InventoryServiceImpls implements InventoryService{
         Inventory inventory = inventoryRepository.findById(inventoryId).orElseThrow(
                 ()-> new ResouceNotFoundException("Inventory not found with id " + inventoryId)
         );
+
+        // Limpiar la relación bidireccional antes de eliminar para evitar inconsistencias/constraints
+        Book book = inventory.getBook();
+        if (book != null) {
+            book.setInventory(null);
+            bookRepository.save(book);
+        }
+
         inventoryRepository.delete(inventory);
     }
 

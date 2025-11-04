@@ -18,4 +18,5 @@ public class InventoryDTO {
     // Datos del libro asociado
     private Long bookId;
     private String bookTitle;
+    private String bookIsbn;
 }

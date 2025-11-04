@@ -16,6 +16,11 @@ public class StudentMapper {
         StudentDTO studentDTO = new StudentDTO();
         studentDTO.setId(student.getId());
         studentDTO.setName(student.getName());
+        studentDTO.setEmail(student.getEmail());
+        studentDTO.setEnrollmentNumber(student.getEnrollmentNumber());
+        studentDTO.setCareer(student.getCareer());
+        studentDTO.setSemester(student.getSemester());
+        studentDTO.setPhone(student.getPhone());
 
         // Paso 9: agregar la lista de préstamos (loans)
         List<LoanDTO> loanDTOs = null;

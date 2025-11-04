@@ -14,6 +14,10 @@ public class BookReturnMapper {
         dto.setReason(bookReturn.getReason());
         dto.setPenaltyAmount(bookReturn.getPenaltyAmount());
 
+        // incluir id del Loan si existe (solo el id, el servicio se encargará de enlazar)
+        if (bookReturn.getLoan() != null) {
+            dto.setLoanId(bookReturn.getLoan().getId());
+        }
 
         return dto;
     }
@@ -25,7 +29,8 @@ public class BookReturnMapper {
         BookReturn e =  new BookReturn();
         e.setId(bookReturnDTO.getId());
         e.setReturnDate(bookReturnDTO.getReturnDate());
-        e.setPenaltyAmount(bookReturnDTO.getPenaltyAmount()); //aqui no es necesario que coloque el loan, solo en la parte de arriba. ni en el bidireccional ni en el unidireccional
+        e.setPenaltyAmount(bookReturnDTO.getPenaltyAmount());
+        // NO asignar el Loan aquí; las relaciones deben manejarse en el ServiceImpl
         return e;
     }
 }

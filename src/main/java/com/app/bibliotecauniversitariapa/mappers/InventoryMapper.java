@@ -19,6 +19,7 @@ public class InventoryMapper {
         if (book != null) {
             inventoryDTO.setBookId(book.getId());
             inventoryDTO.setBookTitle(inventory.getBook().getTitle());
+            inventoryDTO.setBookIsbn(inventory.getBook().getIsbn());
         }
         return inventoryDTO;
 

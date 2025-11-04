@@ -16,6 +16,7 @@ public class BookMapper {
         BookDTO bookDTO = new BookDTO();
         bookDTO.setId(book.getId());
         bookDTO.setTitle(book.getTitle());
+        bookDTO.setSubject(book.getSubject());
         bookDTO.setIsbn(book.getIsbn());
         bookDTO.setPublicationYear(book.getPublicationYear());
 
@@ -28,6 +29,7 @@ public class BookMapper {
         }
 
         List<LoanDTO> loansDTO = null;
+
         if(book.getLoans()!=null){
             loansDTO = book.getLoans()//obtenemos los pedidos y los transformamos a DTO
                     .stream()

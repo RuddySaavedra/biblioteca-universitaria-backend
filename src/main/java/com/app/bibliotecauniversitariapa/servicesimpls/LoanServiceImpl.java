@@ -10,6 +10,7 @@ import com.app.bibliotecauniversitariapa.repositories.BookRepository;
 import com.app.bibliotecauniversitariapa.repositories.BookReturnRepository;
 import com.app.bibliotecauniversitariapa.repositories.LoanRepository;
 import com.app.bibliotecauniversitariapa.services.LoanService;
+import jakarta.transaction.Transactional;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -18,6 +19,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 @Service
+@Transactional
 @AllArgsConstructor
 public class LoanServiceImpl implements LoanService {
     @Autowired

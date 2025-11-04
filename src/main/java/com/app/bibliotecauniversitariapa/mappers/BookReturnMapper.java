@@ -11,7 +11,6 @@ public class BookReturnMapper {
         BookReturnDTO dto =  new BookReturnDTO();
         dto.setId(bookReturn.getId());
         dto.setReturnDate(bookReturn.getReturnDate());
-        dto.setReason(bookReturn.getReason());
         dto.setPenaltyAmount(bookReturn.getPenaltyAmount());
 
         // incluir id del Loan si existe (solo el id, el servicio se encargará de enlazar)

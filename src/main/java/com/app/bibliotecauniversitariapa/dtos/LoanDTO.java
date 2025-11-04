@@ -19,7 +19,7 @@ public class LoanDTO {
     private LoanStatus status;
   
     private Long bookId;
-    private String bookName;
+    private String bookTitle;
   
     private Long returnId;
 

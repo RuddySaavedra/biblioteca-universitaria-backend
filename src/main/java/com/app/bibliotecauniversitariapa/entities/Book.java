@@ -37,7 +37,7 @@ public class Book {
     @JsonManagedReference
     private Inventory inventory;
 
-    @OneToMany(mappedBy = "book", cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToMany(mappedBy = "book")
     @JsonManagedReference
     private List<Loan> loans = new ArrayList<>();
 

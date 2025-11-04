@@ -19,8 +19,6 @@ public class BookReturn {
 
     private LocalDate returnDate;
     private double penaltyAmount;
-    private String reason;
-
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "loan_id", unique = true, foreignKey = @ForeignKey(name = "fk_book_return_loan"))
     @JsonBackReference

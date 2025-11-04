@@ -1,8 +1,10 @@
+// java
 package com.app.bibliotecauniversitariapa.servicesimpls;
 
 import com.app.bibliotecauniversitariapa.dtos.BookReturnDTO;
 import com.app.bibliotecauniversitariapa.entities.BookReturn;
 import com.app.bibliotecauniversitariapa.entities.Loan;
+import com.app.bibliotecauniversitariapa.entities.enums.LoanStatus;
 import com.app.bibliotecauniversitariapa.exceptions.ResouceNotFoundException;
 import com.app.bibliotecauniversitariapa.mappers.BookReturnMapper;
 import com.app.bibliotecauniversitariapa.repositories.BookReturnRepository;
@@ -13,6 +15,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,12 +33,10 @@ public class BookReturnServiceImpl implements BookReturnService {
     public BookReturnDTO createBookReturn(BookReturnDTO bookReturnDTO) {
         BookReturn bookReturn = BookReturnMapper.mapBookReturnDTOToBookReturn(bookReturnDTO);
 
-        // Si viene loanId, enlazar bidireccionalmente
         if (bookReturnDTO.getLoanId() != null) {
             Loan loan = loanRepository.findById(bookReturnDTO.getLoanId())
                     .orElseThrow(() -> new ResouceNotFoundException("Loan not found with id " + bookReturnDTO.getLoanId()));
 
-            // Si existe un BookReturn previo en ese loan, romper la relación previa
             if (loan.getBookReturn() != null) {
                 BookReturn prev = loan.getBookReturn();
                 prev.setLoan(null);
@@ -44,7 +45,9 @@ public class BookReturnServiceImpl implements BookReturnService {
 
             bookReturn.setLoan(loan);
             loan.setBookReturn(bookReturn);
-            // al ser @Transactional, guardar bookReturn es suficiente; loan quedará sincronizado
+            // recalcular y guardar loan
+            recalculateLoanStatus(loan);
+            loanRepository.save(loan);
         }
 
         BookReturn saved = bookReturnRepository.save(bookReturn);
@@ -59,21 +62,18 @@ public class BookReturnServiceImpl implements BookReturnService {
 
         bookReturn.setReturnDate(bookReturnDTO.getReturnDate());
         bookReturn.setPenaltyAmount(bookReturnDTO.getPenaltyAmount());
-        bookReturn.setReason(bookReturnDTO.getReason());
 
-        // Manejar posible cambio de loan
         if (bookReturnDTO.getLoanId() != null) {
             Loan newLoan = loanRepository.findById(bookReturnDTO.getLoanId())
                     .orElseThrow(() -> new ResouceNotFoundException("Loan not found with id " + bookReturnDTO.getLoanId()));
 
-            // desvincular bookReturn de cualquier loan previo diferente
             if (bookReturn.getLoan() != null && !bookReturn.getLoan().getId().equals(newLoan.getId())) {
                 Loan previousLoan = bookReturn.getLoan();
                 previousLoan.setBookReturn(null);
+                recalculateLoanStatus(previousLoan);
                 loanRepository.save(previousLoan);
             }
 
-            // desvincular newLoan de su bookReturn previo (si existe)
             if (newLoan.getBookReturn() != null && !newLoan.getBookReturn().getId().equals(bookReturn.getId())) {
                 BookReturn prevBR = newLoan.getBookReturn();
                 prevBR.setLoan(null);
@@ -82,11 +82,13 @@ public class BookReturnServiceImpl implements BookReturnService {
 
             bookReturn.setLoan(newLoan);
             newLoan.setBookReturn(bookReturn);
+            recalculateLoanStatus(newLoan);
+            loanRepository.save(newLoan);
         } else {
-            // DTO no trae loanId -> si existe relación anterior, romperla
             if (bookReturn.getLoan() != null) {
                 Loan prevLoan = bookReturn.getLoan();
                 prevLoan.setBookReturn(null);
+                recalculateLoanStatus(prevLoan);
                 loanRepository.save(prevLoan);
                 bookReturn.setLoan(null);
             }
@@ -105,7 +107,7 @@ public class BookReturnServiceImpl implements BookReturnService {
         if (bookReturn.getLoan() != null) {
             Loan loan = bookReturn.getLoan();
             loan.setBookReturn(null);
-            // loanRepository.save(loan); // opcional por @Transactional, pero se puede asegurar con save
+            recalculateLoanStatus(loan);
             loanRepository.save(loan);
             bookReturn.setLoan(null);
         }
@@ -125,5 +127,20 @@ public class BookReturnServiceImpl implements BookReturnService {
     public List<BookReturnDTO> getBookReturns() {
         List<BookReturn> bookReturns = bookReturnRepository.findAll();
         return bookReturns.stream().map((BookReturnMapper::mapBookReturnToBookDTO)).collect(Collectors.toList());
+    }
+
+    // recalcula estado del loan asociado
+    private void recalculateLoanStatus(Loan loan) {
+        if (loan == null) return;
+        if (loan.getBookReturn() != null) {
+            loan.setStatus(LoanStatus.RETURNED);
+            return;
+        }
+        LocalDate due = loan.getDueDate();
+        if (due != null && due.isBefore(LocalDate.now())) {
+            loan.setStatus(LoanStatus.LATE);
+        } else {
+            loan.setStatus(LoanStatus.ACTIVE);
+        }
     }
 }

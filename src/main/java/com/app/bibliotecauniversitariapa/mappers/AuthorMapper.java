@@ -15,7 +15,6 @@ public class AuthorMapper {
         authorDTO.setId(author.getId());
         authorDTO.setFirstName(author.getFirstName());
         authorDTO.setLastName(author.getLastName());
-        authorDTO.setAddress(author.getAddress());
         authorDTO.setType(author.getType());
 
         // Map Books to BookDTOs
@@ -26,8 +25,11 @@ public class AuthorMapper {
                     .map(BookMapper::mapBookToBookDTO)
                     .toList();
         }
-
         authorDTO.setBooks(bookDTOs);
+
+        if (author.getAddress() != null) {
+            authorDTO.setAddressId(author.getAddress().getId());
+        }
 
         return authorDTO;
     }
@@ -39,7 +41,6 @@ public class AuthorMapper {
         author.setId(authorDTO.getId());
         author.setFirstName(authorDTO.getFirstName());
         author.setLastName(authorDTO.getLastName());
-        author.setAddress(authorDTO.getAddress());
         author.setType(authorDTO.getType());
 
         if (authorDTO.getBooks() != null) {

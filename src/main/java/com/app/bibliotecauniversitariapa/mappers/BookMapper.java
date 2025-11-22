@@ -20,6 +20,11 @@ public class BookMapper {
         bookDTO.setIsbn(book.getIsbn());
         bookDTO.setPublicationYear(book.getPublicationYear());
 
+        if (book.getBookCopy() != null) {
+            bookDTO.setCopyId(book.getBookCopy().getId());
+            bookDTO.setCopyTitle(book.getBookCopy().getTitle());
+        }
+
         // Incluye datos del author (ID y nombre)
         if (book.getAuthor() != null) {
             bookDTO.setAuthorId(book.getAuthor().getId());

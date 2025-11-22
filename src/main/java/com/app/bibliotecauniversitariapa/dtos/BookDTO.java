@@ -22,5 +22,9 @@ public class BookDTO {
     private Long authorId;
     private String authorFullName;
 
+    // Datos del BookCopy asociado
+    private Long copyId;
+    private String copyTitle;
+
     private List<LoanDTO> loans;
 }

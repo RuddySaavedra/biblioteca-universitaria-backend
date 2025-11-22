@@ -7,7 +7,7 @@ import com.app.bibliotecauniversitariapa.entities.BookReturn;
 import com.app.bibliotecauniversitariapa.entities.Loan;
 import com.app.bibliotecauniversitariapa.entities.Student;
 import com.app.bibliotecauniversitariapa.entities.enums.LoanStatus;
-import com.app.bibliotecauniversitariapa.exceptions.ResouceNotFoundException;
+import com.app.bibliotecauniversitariapa.exceptions.ResourceNotFoundException;
 import com.app.bibliotecauniversitariapa.mappers.LoanMapper;
 import com.app.bibliotecauniversitariapa.repositories.BookRepository;
 import com.app.bibliotecauniversitariapa.repositories.BookReturnRepository;
@@ -76,7 +76,7 @@ public class LoanServiceImpl implements LoanService {
     @Override
     public LoanDTO updateLoan(Long loanId, LoanDTO loanDTO) {
         Loan loan = loanRepository.findById(loanId)
-                .orElseThrow(() -> new ResouceNotFoundException("Loan not found with id " + loanId));
+                .orElseThrow(() -> new ResourceNotFoundException("Loan not found with id " + loanId));
 
         loan.setLoanDate(loanDTO.getLoanDate());
         loan.setDueDate(loanDTO.getDueDate());
@@ -178,22 +178,22 @@ public class LoanServiceImpl implements LoanService {
 
     private Loan verifyLoan(Long loanId) {
         return loanRepository.findById(loanId)
-                .orElseThrow(() -> new ResouceNotFoundException("Loan not found with id " + loanId));
+                .orElseThrow(() -> new ResourceNotFoundException("Loan not found with id " + loanId));
     }
 
     private Book verifyBook(Long bookId) {
         return bookRepository.findById(bookId)
-                .orElseThrow(() -> new ResouceNotFoundException("Book not found with id " + bookId));
+                .orElseThrow(() -> new ResourceNotFoundException("Book not found with id " + bookId));
     }
 
     private BookReturn verifyBookReturn(Long returnId) {
         return bookReturnRepository.findById(returnId)
-                .orElseThrow(() -> new ResouceNotFoundException("BookReturn not found with id " + returnId));
+                .orElseThrow(() -> new ResourceNotFoundException("BookReturn not found with id " + returnId));
     }
 
     private Student verifyStudent(Long studentId) {
         return studentRepository.findById(studentId)
-                .orElseThrow(() -> new ResouceNotFoundException("Student not found with id " + studentId));
+                .orElseThrow(() -> new ResourceNotFoundException("Student not found with id " + studentId));
     }
 
     private void recalculateStatus(Loan loan) {

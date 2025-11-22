@@ -4,7 +4,7 @@ package com.app.bibliotecauniversitariapa.servicesimpls;
 import com.app.bibliotecauniversitariapa.dtos.AddressDTO;
 import com.app.bibliotecauniversitariapa.entities.Address;
 import com.app.bibliotecauniversitariapa.entities.Author;
-import com.app.bibliotecauniversitariapa.exceptions.ResouceNotFoundException;
+import com.app.bibliotecauniversitariapa.exceptions.ResourceNotFoundException;
 import com.app.bibliotecauniversitariapa.mappers.AddressMapper;
 import com.app.bibliotecauniversitariapa.repositories.AddressRepository;
 import com.app.bibliotecauniversitariapa.repositories.AuthorRepository;
@@ -33,7 +33,7 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public AddressDTO updateAddress(Long addressId, AddressDTO addressDTO) {
         Address address = addressRepository.findById(addressId)
-                .orElseThrow(() -> new ResouceNotFoundException("Address not found with id " + addressId));
+                .orElseThrow(() -> new ResourceNotFoundException("Address not found with id " + addressId));
 
         // Actualizar campos simples
         address.setCondominium(addressDTO.getCondominium());
@@ -48,7 +48,7 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public void deleteAddress(Long addressId) {
         Address address = addressRepository.findById(addressId)
-                .orElseThrow(() -> new ResouceNotFoundException("Address not found with id " + addressId));
+                .orElseThrow(() -> new ResourceNotFoundException("Address not found with id " + addressId));
         // Si la dirección está asociada a un author (owner), quitar la relación para evitar violación de FK
         Author author = address.getAuthor();
         if (author != null) {
@@ -61,7 +61,7 @@ public class AddressServiceImpl implements AddressService {
     @Override
     public AddressDTO getAddressById(Long addressId) {
         Address address = addressRepository.findById(addressId)
-                .orElseThrow(() -> new ResouceNotFoundException("Address not found with id " + addressId));
+                .orElseThrow(() -> new ResourceNotFoundException("Address not found with id " + addressId));
         return AddressMapper.mapAddressToAddressDTO(address);
     }
 

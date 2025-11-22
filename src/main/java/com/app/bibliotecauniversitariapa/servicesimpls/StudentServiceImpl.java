@@ -2,7 +2,7 @@ package com.app.bibliotecauniversitariapa.servicesimpls;
 
 import com.app.bibliotecauniversitariapa.dtos.StudentDTO;
 import com.app.bibliotecauniversitariapa.entities.Student;
-import com.app.bibliotecauniversitariapa.exceptions.ResouceNotFoundException;
+import com.app.bibliotecauniversitariapa.exceptions.ResourceNotFoundException;
 import com.app.bibliotecauniversitariapa.mappers.LoanMapper;
 import com.app.bibliotecauniversitariapa.mappers.StudentMapper;
 import com.app.bibliotecauniversitariapa.repositories.StudentRepository;
@@ -30,7 +30,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public StudentDTO updateStudent(Long studentId, StudentDTO studentDTO) {
         Student student = studentRepository.findById(studentId).orElseThrow(
-                () -> new ResouceNotFoundException("Student not found with id " + studentId)
+                () -> new ResourceNotFoundException("Student not found with id " + studentId)
         );
 
         student.setName(studentDTO.getName());
@@ -58,7 +58,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public void deleteStudent(Long studentId) {
         Student student = studentRepository.findById(studentId).orElseThrow(
-                () -> new ResouceNotFoundException("Student not found with id " + studentId)
+                () -> new ResourceNotFoundException("Student not found with id " + studentId)
         );
         // Al eliminar el Student, por cascade = ALL las entidades relacionadas (loans) se eliminarán o quedarán huérfanas según la configuración.
         studentRepository.delete(student);
@@ -67,7 +67,7 @@ public class StudentServiceImpl implements StudentService {
     @Override
     public StudentDTO getStudentById(Long studentId) {
         Student student = studentRepository.findById(studentId).orElseThrow(
-                () -> new ResouceNotFoundException("Student not found with id " + studentId)
+                () -> new ResourceNotFoundException("Student not found with id " + studentId)
         );
         return StudentMapper.mapStudentToStudentDTO(student);
     }

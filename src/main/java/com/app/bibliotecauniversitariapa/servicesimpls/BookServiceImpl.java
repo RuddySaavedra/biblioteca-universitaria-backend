@@ -3,9 +3,11 @@ package com.app.bibliotecauniversitariapa.servicesimpls;
 import com.app.bibliotecauniversitariapa.dtos.BookDTO;
 import com.app.bibliotecauniversitariapa.entities.Author;
 import com.app.bibliotecauniversitariapa.entities.Book;
-import com.app.bibliotecauniversitariapa.exceptions.ResouceNotFoundException;
+import com.app.bibliotecauniversitariapa.entities.BookCopy;
+import com.app.bibliotecauniversitariapa.exceptions.ResourceNotFoundException;
 import com.app.bibliotecauniversitariapa.mappers.BookMapper;
 import com.app.bibliotecauniversitariapa.repositories.AuthorRepository;
+import com.app.bibliotecauniversitariapa.repositories.BookCopyRepository;
 import com.app.bibliotecauniversitariapa.repositories.BookRepository;
 import com.app.bibliotecauniversitariapa.services.BookService;
 import lombok.RequiredArgsConstructor;
@@ -24,6 +26,8 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
     @Autowired
     private final AuthorRepository authorRepository;
+    @Autowired
+    private BookCopyRepository bookCopyRepository;
 
     @Override
     public BookDTO createBook(BookDTO bookDTO) {
@@ -33,6 +37,18 @@ public class BookServiceImpl implements BookService {
         Author author = verifyAuthor(bookDTO.getAuthorId());
         // Set the author to the book
         author.addBook(book);
+
+        if (bookDTO.getCopyId() != null) {
+            BookCopy bookCopy = bookCopyRepository.findById(bookDTO.getCopyId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Book Copy not found with id " + bookDTO.getCopyId()));
+
+            if (bookCopy.getBook() != null) {
+                throw new IllegalStateException("Book Copy with id " + bookCopy.getId() + " is already assigned to another Book.");
+            }
+
+            // Asignar y guardar author (owner) para que se escriba el fk address_id
+            book.setBookCopy(bookCopy); // setAddress() también hará address.setAuthor(this)
+        }
 
         Book savedBook = bookRepository.save(book);
         return BookMapper.mapBookToBookDTO(savedBook);
@@ -57,6 +73,19 @@ public class BookServiceImpl implements BookService {
             }
         }
 
+        if (bookDTO.getCopyId() == null) {
+            book.setBookCopy(null);
+        } else {
+            BookCopy newBookCopy = bookCopyRepository.findById(bookDTO.getCopyId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Book Copy not found with id " + bookDTO.getCopyId()));
+            Book prev = newBookCopy.getBook();
+            if (prev != null && !prev.getId().equals(bookId)) {
+                prev.setBookCopy(null);
+            }
+
+            book.setBookCopy(newBookCopy);
+        }
+
         Book updatedBook = bookRepository.save(book);
         return BookMapper.mapBookToBookDTO(updatedBook);
     }
@@ -64,6 +93,14 @@ public class BookServiceImpl implements BookService {
     @Override
     public void deleteBook(Long bookId) {
         Book book = verifyBook(bookId);
+
+        // Limpiar relación bidireccional antes de borrar
+        if (book.getBookCopy() != null) {
+            BookCopy bookCopy = book.getBookCopy();
+            bookCopy.setBook(null);
+            bookCopyRepository.save(bookCopy);
+        }
+
         bookRepository.delete(book);
     }
 
@@ -86,11 +123,11 @@ public class BookServiceImpl implements BookService {
     // ===============================================================
     private Book verifyBook(Long bookId) {
         return bookRepository.findById(bookId)
-                .orElseThrow(() -> new ResouceNotFoundException("Book not found with id " + bookId));
+                .orElseThrow(() -> new ResourceNotFoundException("Book not found with id " + bookId));
     }
 
     private Author verifyAuthor(Long authorId) {
         return authorRepository.findById(authorId)
-                .orElseThrow(() -> new ResouceNotFoundException("Author not found with id " + authorId));
+                .orElseThrow(() -> new ResourceNotFoundException("Author not found with id " + authorId));
     }
 }

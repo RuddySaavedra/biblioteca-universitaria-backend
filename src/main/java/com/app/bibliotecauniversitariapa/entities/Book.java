@@ -45,4 +45,8 @@ public class Book {
         loans.add(loan);
         loan.setBook(this);
     }
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "book_copy_id", unique = true, foreignKey = @ForeignKey(name = "fk_book_book_copy"))
+    @JsonBackReference
+    private BookCopy bookCopy;
 }

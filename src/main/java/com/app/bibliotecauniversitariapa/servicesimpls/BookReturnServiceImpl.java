@@ -5,7 +5,7 @@ import com.app.bibliotecauniversitariapa.dtos.BookReturnDTO;
 import com.app.bibliotecauniversitariapa.entities.BookReturn;
 import com.app.bibliotecauniversitariapa.entities.Loan;
 import com.app.bibliotecauniversitariapa.entities.enums.LoanStatus;
-import com.app.bibliotecauniversitariapa.exceptions.ResouceNotFoundException;
+import com.app.bibliotecauniversitariapa.exceptions.ResourceNotFoundException;
 import com.app.bibliotecauniversitariapa.mappers.BookReturnMapper;
 import com.app.bibliotecauniversitariapa.repositories.BookReturnRepository;
 import com.app.bibliotecauniversitariapa.repositories.LoanRepository;
@@ -35,7 +35,7 @@ public class BookReturnServiceImpl implements BookReturnService {
 
         if (bookReturnDTO.getLoanId() != null) {
             Loan loan = loanRepository.findById(bookReturnDTO.getLoanId())
-                    .orElseThrow(() -> new ResouceNotFoundException("Loan not found with id " + bookReturnDTO.getLoanId()));
+                    .orElseThrow(() -> new ResourceNotFoundException("Loan not found with id " + bookReturnDTO.getLoanId()));
 
             if (loan.getBookReturn() != null) {
                 BookReturn prev = loan.getBookReturn();
@@ -57,7 +57,7 @@ public class BookReturnServiceImpl implements BookReturnService {
     @Override
     public BookReturnDTO updateBookReturn(Long bookReturnId, BookReturnDTO bookReturnDTO) {
         BookReturn bookReturn = bookReturnRepository.findById(bookReturnId).orElseThrow(
-                ()-> new ResouceNotFoundException("Book Return not found with id " + bookReturnId)
+                ()-> new ResourceNotFoundException("Book Return not found with id " + bookReturnId)
         );
 
         bookReturn.setReturnDate(bookReturnDTO.getReturnDate());
@@ -65,7 +65,7 @@ public class BookReturnServiceImpl implements BookReturnService {
 
         if (bookReturnDTO.getLoanId() != null) {
             Loan newLoan = loanRepository.findById(bookReturnDTO.getLoanId())
-                    .orElseThrow(() -> new ResouceNotFoundException("Loan not found with id " + bookReturnDTO.getLoanId()));
+                    .orElseThrow(() -> new ResourceNotFoundException("Loan not found with id " + bookReturnDTO.getLoanId()));
 
             if (bookReturn.getLoan() != null && !bookReturn.getLoan().getId().equals(newLoan.getId())) {
                 Loan previousLoan = bookReturn.getLoan();
@@ -101,7 +101,7 @@ public class BookReturnServiceImpl implements BookReturnService {
     @Override
     public void deleteBookReturn(Long bookReturnId) {
         BookReturn bookReturn = bookReturnRepository.findById(bookReturnId).orElseThrow(
-                ()-> new ResouceNotFoundException("Book Return not found with id " + bookReturnId)
+                ()-> new ResourceNotFoundException("Book Return not found with id " + bookReturnId)
         );
 
         if (bookReturn.getLoan() != null) {
@@ -118,7 +118,7 @@ public class BookReturnServiceImpl implements BookReturnService {
     @Override
     public BookReturnDTO getBookReturnById(Long bookReturnId) {
         BookReturn bookReturn = bookReturnRepository.findById(bookReturnId).orElseThrow(
-                ()-> new ResouceNotFoundException("Book Return not found with id " + bookReturnId)
+                ()-> new ResourceNotFoundException("Book Return not found with id " + bookReturnId)
         );
         return BookReturnMapper.mapBookReturnToBookDTO(bookReturn);
     }

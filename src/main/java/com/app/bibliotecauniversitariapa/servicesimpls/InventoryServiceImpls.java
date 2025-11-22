@@ -3,7 +3,7 @@ package com.app.bibliotecauniversitariapa.servicesimpls;
 import com.app.bibliotecauniversitariapa.dtos.InventoryDTO;
 import com.app.bibliotecauniversitariapa.entities.Book;
 import com.app.bibliotecauniversitariapa.entities.Inventory;
-import com.app.bibliotecauniversitariapa.exceptions.ResouceNotFoundException;
+import com.app.bibliotecauniversitariapa.exceptions.ResourceNotFoundException;
 import com.app.bibliotecauniversitariapa.mappers.InventoryMapper;
 import com.app.bibliotecauniversitariapa.repositories.BookRepository;
 import com.app.bibliotecauniversitariapa.repositories.InventoryRepository;
@@ -33,7 +33,7 @@ public class InventoryServiceImpls implements InventoryService{
 
         // Buscar el Book relacionado por id; si no existe, lanzar excepción controlada
         Book book = bookRepository.findById(inventoryDTO.getBookId())
-                .orElseThrow(() -> new ResouceNotFoundException("Book not found with id " + inventoryDTO.getBookId()));
+                .orElseThrow(() -> new ResourceNotFoundException("Book not found with id " + inventoryDTO.getBookId()));
 
         // Evitar crear si el libro ya tiene un Inventory asignado
         if (book.getInventory() != null) {
@@ -55,7 +55,7 @@ public class InventoryServiceImpls implements InventoryService{
     public InventoryDTO updateInventory(Long inventoryId, InventoryDTO inventoryDTO) {
         // Buscar Inventory existente; si no se encuentra, lanzar excepción
         Inventory inventory = inventoryRepository.findById(inventoryId).orElseThrow(
-                ()-> new ResouceNotFoundException("Inventory not found with id " + inventoryId)
+                ()-> new ResourceNotFoundException("Inventory not found with id " + inventoryId)
         );
 
         // Actualizar solo los campos permitidos desde el DTO
@@ -66,7 +66,7 @@ public class InventoryServiceImpls implements InventoryService{
         // Si el DTO trae bookId, gestionar la reasignación correctamente
         if (inventoryDTO.getBookId() != null) {
             Book newBook = bookRepository.findById(inventoryDTO.getBookId())
-                    .orElseThrow(() -> new ResouceNotFoundException("Book not found with id " + inventoryDTO.getBookId()));
+                    .orElseThrow(() -> new ResourceNotFoundException("Book not found with id " + inventoryDTO.getBookId()));
 
             Book currentBook = inventory.getBook();
 
@@ -99,7 +99,7 @@ public class InventoryServiceImpls implements InventoryService{
     public void deleteInventory(Long inventoryId) {
         // Buscar Inventory y eliminar; se usa excepción si no existe
         Inventory inventory = inventoryRepository.findById(inventoryId).orElseThrow(
-                ()-> new ResouceNotFoundException("Inventory not found with id " + inventoryId)
+                ()-> new ResourceNotFoundException("Inventory not found with id " + inventoryId)
         );
 
         // Limpiar la relación bidireccional antes de eliminar para evitar inconsistencias/constraints
@@ -116,7 +116,7 @@ public class InventoryServiceImpls implements InventoryService{
     public InventoryDTO getInventoryById(Long inventoryId) {
         // Obtener por id y mapear a DTO; excepción si no existe
         Inventory inventory = inventoryRepository.findById(inventoryId).orElseThrow(
-                ()-> new ResouceNotFoundException("Inventory not found with id " + inventoryId)
+                ()-> new ResourceNotFoundException("Inventory not found with id " + inventoryId)
         );
         return InventoryMapper.mapInventoryToInventoryDTO(inventory);
     }

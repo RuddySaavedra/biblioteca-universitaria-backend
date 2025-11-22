@@ -4,7 +4,7 @@ package com.app.bibliotecauniversitariapa.servicesimpls;
 import com.app.bibliotecauniversitariapa.dtos.AuthorDTO;
 import com.app.bibliotecauniversitariapa.entities.Address;
 import com.app.bibliotecauniversitariapa.entities.Author;
-import com.app.bibliotecauniversitariapa.exceptions.ResouceNotFoundException;
+import com.app.bibliotecauniversitariapa.exceptions.ResourceNotFoundException;
 import com.app.bibliotecauniversitariapa.mappers.AuthorMapper;
 import com.app.bibliotecauniversitariapa.repositories.AddressRepository;
 import com.app.bibliotecauniversitariapa.repositories.AuthorRepository;
@@ -29,7 +29,7 @@ public class AuthorServiceImpl implements AuthorService {
 
         if (authorDTO.getAddressId() != null) {
             Address address = addressRepository.findById(authorDTO.getAddressId())
-                    .orElseThrow(() -> new ResouceNotFoundException("Address not found with id " + authorDTO.getAddressId()));
+                    .orElseThrow(() -> new ResourceNotFoundException("Address not found with id " + authorDTO.getAddressId()));
 
             if (address.getAuthor() != null) {
                 throw new IllegalStateException("Address with id " + address.getId() + " is already assigned to another author.");
@@ -47,7 +47,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public AuthorDTO updateAuthor(Long authorId, AuthorDTO authorDTO) {
         Author author = authorRepository.findById(authorId)
-                .orElseThrow(() -> new ResouceNotFoundException("Author not found with id" + authorId));
+                .orElseThrow(() -> new ResourceNotFoundException("Author not found with id" + authorId));
 
         author.setFirstName(authorDTO.getFirstName());
         author.setLastName(authorDTO.getLastName());
@@ -57,7 +57,7 @@ public class AuthorServiceImpl implements AuthorService {
             author.setAddress(null);
         } else {
             Address newAddress = addressRepository.findById(authorDTO.getAddressId())
-                    .orElseThrow(() -> new ResouceNotFoundException("Address not found with id " + authorDTO.getAddressId()));
+                    .orElseThrow(() -> new ResourceNotFoundException("Address not found with id " + authorDTO.getAddressId()));
 
             // si la dirección está asignada a otro autor, despegarla
             Author prev = newAddress.getAuthor();
@@ -76,7 +76,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public void deleteAuthor(Long authorId) {
         Author author = authorRepository.findById(authorId).orElseThrow(
-                ()-> new ResouceNotFoundException("Author not found with id" +authorId)
+                ()-> new ResourceNotFoundException("Author not found with id" +authorId)
         );
 
         // Limpiar relación bidireccional antes de borrar
@@ -92,7 +92,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Override
     public AuthorDTO getAuthorById(Long authorId) {
         Author author = authorRepository.findById(authorId).orElseThrow(
-                ()-> new ResouceNotFoundException("Author not found with id" +authorId)
+                ()-> new ResourceNotFoundException("Author not found with id" +authorId)
         );
         return AuthorMapper.mapAuthorToAuthorDTO(author);
     }
